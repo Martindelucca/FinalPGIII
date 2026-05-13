@@ -1,0 +1,125 @@
+<div class="p-6">
+  <!-- Loading State -->
+  @if(loading) {
+  <div class="flex justify-center items-center py-12">
+    <span class="ml-3 text-gray-600">Cargando subastas...</span>
+  </div>
+  }
+
+  <!-- Error State -->
+  @if(error && !loading) {
+  <div class="bg-red-50 border border-red-200 rounded-md p-4 mb-6">
+    <div class="flex">
+      <div class="flex-shrink-0">
+        <svg
+          class="h-5 w-5 text-red-400"
+          viewBox="0 0 20 20"
+          fill="currentColor"
+        >
+          <path
+            fill-rule="evenodd"
+            d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z"
+            clip-rule="evenodd"
+          />
+        </svg>
+      </div>
+      <div class="ml-3">
+        <h3 class="text-sm font-medium text-red-800">Error</h3>
+        <div class="mt-2 text-sm text-red-700">{{ error }}</div>
+      </div>
+    </div>
+  </div>
+  }
+
+  <!-- Auctions Grid -->
+  @if(!loading && !error) {
+  <!-- Empty State -->
+  @if(auctions.length === 0) {
+  <div class="text-center py-12">
+    <svg
+      class="mx-auto h-12 w-12 text-gray-400"
+      fill="none"
+      viewBox="0 0 24 24"
+      stroke="currentColor"
+    >
+      <path
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        stroke-width="2"
+        d="M9 5H7a2 2 0 00-2 2v10a2 2 0 002 2h8a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"
+      />
+    </svg>
+    <h3 class="mt-2 text-sm font-medium text-gray-900">No hay subastas</h3>
+    <p class="mt-1 text-sm text-gray-500">
+      No se encontraron subastas disponibles.
+    </p>
+  </div>
+  } @else {
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+    <!-- 
+    TODO: Iterar dinámicamente sobre la lista de subastas para mostrar los datos reales dentro de cada tarjeta.
+    1. Usar @for (Angular v17) para recorrer el array de subastas disponible en el componente.
+    2. Reemplazar los valores estáticos por expresiones que accedan a los campos reales de cada subasta.
+    3. Utilizar el método getStatusText para obtener el texto correspondiente al estado de la subasta.
+    -->
+    <div
+      class="bg-white rounded-lg border border-gray-200 shadow-sm hover:shadow-md transition-shadow duration-200"
+    >
+      <div class="p-6">
+        <!-- Status Badge -->
+        <div class="flex justify-between items-start mb-4">
+          <span
+            class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium {{
+              getStatusClass(auction)
+            }}"
+          >
+            Activo
+          </span>
+          <span class="text-xs text-gray-500"> ID: 1 </span>
+        </div>
+
+        <!-- Title -->
+        <h3 class="text-lg font-semibold text-gray-900 mb-2 line-clamp-2">
+          Título
+        </h3>
+
+        <!-- Description -->
+        <p class="text-sm text-gray-600 mb-4 line-clamp-3">Descripción</p>
+
+        <!-- Auction Details -->
+        <div class="space-y-2 mb-4">
+          <div class="flex justify-between text-sm">
+            <span class="text-gray-500">Precio actual:</span>
+            <span class="font-medium text-gray-900">$ 100</span>
+          </div>
+
+          <!-- 
+          * Mostrar el nombre completo del mayor postor solo si existe la propiedad "highestBidder".
+          * Esta propiedad puede ser undefined, por lo tanto debe validarse antes de acceder a sus campos con @if (Angular v17).
+          * En caso de estar presente, mostrar los campos "firstName" y "lastName" del objeto "highestBidder".
+          -->
+          <div class="flex justify-between text-sm">
+            <span class="text-gray-500">Mayor postor:</span>
+            <span class="font-medium text-gray-900">Nombre Apellido</span>
+          </div>
+
+          <div class="flex justify-between text-sm">
+            <span class="text-gray-500">Finaliza:</span>
+            <span class="font-medium text-gray-900">05/08/2025</span>
+          </div>
+        </div>
+
+        <!-- Action Button -->
+        <div class="mt-6">
+          <a
+            [routerLink]="['/', auction.id]"
+            class="w-full inline-flex justify-center items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors duration-200"
+          >
+            Ver subasta
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+  } }
+</div>

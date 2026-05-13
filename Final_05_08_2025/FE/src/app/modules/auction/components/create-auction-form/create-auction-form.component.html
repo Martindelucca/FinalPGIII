@@ -1,0 +1,153 @@
+<!-- 
+TODO: Completar el formulario para crear una nueva subasta utilizando Template-driven Forms.
+1. Asegurar que cada campo esté enlazado con [(ngModel)] y tenga su validación correspondiente.
+  - Título: requerido, entre 3 y 100 caracteres.
+  - Descripción: requerida, entre 10 y 500 caracteres.
+  - Fecha de inicio: requerida, no debe ser anterior a hoy.
+  - Fecha de finalización: requerida, debe ser posterior a la de inicio.
+  - Precio inicial: requerido, mayor a 0.
+2. Mostrar mensajes de error para cada validación cuando el formulario se haya enviado y los campos sean inválidos.
+-->
+<form class="space-y-6">
+  <!-- Title -->
+  <div>
+    <label for="title" class="block text-sm font-medium text-gray-700 mb-1">
+      Título de la subasta *
+    </label>
+    <input
+      type="text"
+      id="title"
+      name="title"
+      class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+      [class.border-red-300]="auctionForm.submitted && title.invalid"
+      placeholder="Ej: iPhone 14 Pro Max"
+    />
+    <div class="mt-1 text-sm text-red-600">
+      <p>Error</p>
+    </div>
+  </div>
+
+  <!-- Description -->
+  <div>
+    <label
+      for="description"
+      class="block text-sm font-medium text-gray-700 mb-1"
+    >
+      Descripción *
+    </label>
+    <textarea
+      id="description"
+      name="description"
+      rows="4"
+      class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+      [class.border-red-300]="auctionForm.submitted && description.invalid"
+      placeholder="Describe el producto o servicio que se subasta..."
+    ></textarea>
+    <div class="mt-1 text-sm text-red-600">
+      <p>Error</p>
+    </div>
+  </div>
+
+  <!-- Start Date -->
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+    <div>
+      <label
+        for="startDate"
+        class="block text-sm font-medium text-gray-700 mb-1"
+      >
+        Fecha de inicio *
+      </label>
+      <input
+        type="datetime-local"
+        id="startDate"
+        name="startDate"
+        class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+        [class.border-red-300]="auctionForm.submitted && startDate.invalid"
+      />
+      <div class="mt-1 text-sm text-red-600">
+        <p>Error</p>
+      </div>
+    </div>
+
+    <!-- End Date -->
+    <div>
+      <label for="endDate" class="block text-sm font-medium text-gray-700 mb-1">
+        Fecha de finalización *
+      </label>
+      <input
+        type="datetime-local"
+        id="endDate"
+        name="endDate"
+        class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+        [class.border-red-300]="auctionForm.submitted && endDate.invalid"
+      />
+      <div class="mt-1 text-sm text-red-600">
+        <p>Error</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Initial Amount -->
+  <div>
+    <label for="maxAmount" class="block text-sm font-medium text-gray-700 mb-1">
+      Precio inicial *
+    </label>
+    <div class="relative">
+      <div
+        class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none"
+      >
+        <span class="text-gray-500 sm:text-sm">$</span>
+      </div>
+      <input
+        type="number"
+        id="maxAmount"
+        name="maxAmount"
+        class="w-full pl-7 pr-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+        [class.border-red-300]="auctionForm.submitted && maxAmount.invalid"
+        placeholder="0.00"
+      />
+    </div>
+    <div class="mt-1 text-sm text-red-600">
+      <p>Error</p>
+    </div>
+  </div>
+
+  <!-- Submit Button -->
+  <div class="flex justify-end space-x-3">
+    <button
+      type="button"
+      (click)="resetForm()"
+      class="px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+    >
+      Cancelar
+    </button>
+    <button
+      type="submit"
+      [disabled]="loading"
+      class="inline-flex justify-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 disabled:opacity-50 disabled:cursor-not-allowed"
+    >
+      @if(loading) {
+      <svg
+        class="animate-spin -ml-1 mr-2 h-4 w-4 text-white"
+        xmlns="http://www.w3.org/2000/svg"
+        fill="none"
+        viewBox="0 0 24 24"
+      >
+        <circle
+          class="opacity-25"
+          cx="12"
+          cy="12"
+          r="10"
+          stroke="currentColor"
+          stroke-width="4"
+        ></circle>
+        <path
+          class="opacity-75"
+          fill="currentColor"
+          d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+        ></path>
+      </svg>
+      Creando... } @else { Crear subasta }
+    </button>
+  </div>
+</form>

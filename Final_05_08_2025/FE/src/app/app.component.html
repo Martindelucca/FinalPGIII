@@ -1,0 +1,122 @@
+<div class="min-h-screen bg-gray-50">
+  <!-- Navbar -->
+  <nav class="bg-white border-b border-gray-200">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex justify-between items-center h-16">
+        <!-- Logo/Brand -->
+        <div class="flex items-center">
+          <h1 class="text-xl font-semibold text-gray-900">
+            🏷️ FE Auction Exam
+          </h1>
+        </div>
+
+        <!-- User Selection -->
+        <div class="flex items-center space-x-4">
+          <div class="flex items-center space-x-2">
+            <span class="text-sm text-gray-600">Usuario:</span>
+            <select
+              id="user-select"
+              name="user-select"
+              (change)="onUserChange($event)"
+              [value]="currentUser?.id || ''"
+              class="block w-64 px-3 py-2 text-sm border rounded-md focus:outline-none focus:ring-0 focus:ring-blue-500 focus:border-blue-500"
+              [ngClass]="{
+                'border-gray-200': users.length === 0,
+                'border-gray-300': users.length !== 0,
+                'bg-gray-50': users.length === 0,
+                'bg-white': users.length !== 0,
+                'text-gray-500': users.length === 0,
+                'text-gray-900': users.length !== 0
+              }"
+              [disabled]="users.length === 0"
+            >
+              <option value="">Seleccionar usuario</option>
+              @for(user of users; track $index) {
+              <option [value]="user.id" class="py-1">
+                {{ user.email }}
+              </option>
+              }
+            </select>
+          </div>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Main Content -->
+  <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <!-- Welcome -->
+    <div class="text-center mb-8">
+      <h1 class="text-3xl font-bold text-gray-900 mb-4">
+        🏷️ Sistema de Subastas
+      </h1>
+      <p class="text-lg text-gray-600">
+        Bienvenido al sistema de subastas para el examen de Angular
+      </p>
+    </div>
+
+    <!-- Navigation Tabs -->
+    <div class="flex justify-between mb-2">
+      <nav class="flex space-x-8" aria-label="Tabs">
+        <a
+          routerLink="/"
+          routerLinkActive="text-blue-600!"
+          [routerLinkActiveOptions]="{ exact: true }"
+          class="text-gray-500 hover:text-gray-700 whitespace-nowrap py-2 px-1 font-medium text-sm"
+        >
+          Listado
+        </a>
+        <a
+          routerLink="/create-auction"
+          routerLinkActive="text-blue-600!"
+          class="text-gray-500 hover:text-gray-700 whitespace-nowrap py-2 px-1 font-medium text-sm"
+        >
+          Crear subasta
+        </a>
+      </nav>
+
+      <div class="flex items-center">
+        @if(currentUser) {
+        <div
+          class="flex ml-2 items-center space-x-2 bg-green-50 px-3 py-1 rounded-full"
+        >
+          <span class="text-sm font-medium text-green-800">
+            $ {{ currentUser.balance }}
+          </span>
+        </div>
+        <div
+          class="flex ml-2 items-center space-x-2 bg-blue-50 px-3 py-1 rounded-full"
+        >
+          <div class="w-2 h-2 bg-green-400 rounded-full"></div>
+          <span class="text-sm font-medium text-blue-800">
+            {{ getCurrentUserDisplayName() }}
+          </span>
+        </div>
+        } @else {
+        <div
+          class="flex ml-2 items-center space-x-2 bg-red-50 px-3 py-1 rounded-full"
+        >
+          <div class="w-2 h-2 bg-red-400 rounded-full"></div>
+          <span class="text-sm font-medium text-red-800">
+            No hay usuario seleccionado
+          </span>
+        </div>
+        }
+        <div
+          class="flex ml-2 items-center space-x-2 bg-amber-50 px-3 py-1 rounded-full"
+        >
+          <span class="text-sm font-medium text-amber-700">
+            Cambiar usuario desde el selector ubicado en la parte superior
+          </span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Content -->
+    <div
+      class="bg-white rounded-lg border border-gray-200 min-h-[calc(100vh-18rem)]"
+    >
+      <router-outlet></router-outlet>
+    </div>
+  </main>
+</div>
